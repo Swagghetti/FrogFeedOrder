@@ -77,6 +77,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d374a6637d07cdf4ebc056bd86ea7237, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cellColor: 2
-  _isArrowCell: 0
-  _arrowDirection: 0
+  cellColor: 0
+  cellType: 0
+  arrowDirection: 0
+  greenMaterial: {fileID: 2100000, guid: 6d48aaacef39fc74e8a9ebc307fe73b8, type: 2}
+  yellowMaterial: {fileID: 2100000, guid: 37b28ee3ba0aa92489a1bb5f2e13700f, type: 2}
+  redMaterial: {fileID: 2100000, guid: 67a9fc31651b34e4f89624030b6fc6ab, type: 2}
+  purpleMaterial: {fileID: 2100000, guid: a2477c53ec2c6004f83a114c5ac6f56b, type: 2}

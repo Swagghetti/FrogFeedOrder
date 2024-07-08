@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class Cell : MonoBehaviour
 {
+    public static readonly float CellHeight = 0.1f;
     [SerializeField] private CellColor cellColor;
-    [SerializeField] private CellType cellType;
-    [SerializeField] private ArrowDirection arrowDirection;
-
-    [SerializeField] private Material blueMaterial;
+    [SerializeField] private EntityType entityType;
+    [SerializeField] private PointDirection direction;
+    
     [SerializeField] private Material greenMaterial;
     [SerializeField] private Material yellowMaterial;
     [SerializeField] private Material redMaterial;
@@ -18,27 +18,40 @@ public class Cell : MonoBehaviour
     private void Start()
     {
         InitializeCellColor();
-        
     }
+
+    public CellColor GetCellColor()
+    {
+        return cellColor;
+    }
+
+    public EntityType GetCellEntityType()
+    {
+        return entityType;
+    }
+    
 
     private void InitializeCellColor()
     {
+        var tempMaterials = this.gameObject.GetComponent<Renderer>().materials;
+        
         switch (cellColor)
-        {
-            case CellColor.Blue:
-                this.gameObject.GetComponent<MeshRenderer>().materials[0] = blueMaterial;
-                break;
+        { 
             case CellColor.Green:
-                this.gameObject.GetComponent<MeshRenderer>().materials[0] = greenMaterial;
+                tempMaterials[0] = greenMaterial;
+                this.gameObject.GetComponent<Renderer>().materials = tempMaterials;
                 break;
             case CellColor.Yellow:
-                this.gameObject.GetComponent<MeshRenderer>().materials[0] = yellowMaterial;
+                tempMaterials[0] = yellowMaterial;
+                this.gameObject.GetComponent<Renderer>().materials = tempMaterials;
                 break;
             case CellColor.Red:
-                this.gameObject.GetComponent<MeshRenderer>().materials[0] = redMaterial;
+                tempMaterials[0] = redMaterial;
+                this.gameObject.GetComponent<Renderer>().materials = tempMaterials;
                 break;
             case CellColor.Purple:
-                this.gameObject.GetComponent<MeshRenderer>().materials[0] = purpleMaterial;
+                tempMaterials[0] = purpleMaterial;
+                this.gameObject.GetComponent<Renderer>().materials = tempMaterials;
                 break;
         }
     }
@@ -46,25 +59,25 @@ public class Cell : MonoBehaviour
 
     public enum CellColor
     {
-        Blue,
         Green,
         Yellow,
         Red,
         Purple
     }
 
-    public enum CellType
+    public enum EntityType
     {
         Grape,
         Arrow,
         Frog,
     }
     
-    public enum ArrowDirection
-    {
-        Up,
-        Right,
-        Down,
-        Left
-    }
+}
+
+public enum PointDirection
+{
+    Up,
+    Right,
+    Down,
+    Left
 }

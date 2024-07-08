@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Node : MonoBehaviour
 {
-    [SerializeField] private List<Cell> cells;
+    [SerializeField] private Entity entity;
+    [SerializeField] private List<Cell> cells = new List<Cell>();
     
     [SerializeField] private Node topNeighborNode;
     [SerializeField] private Node rightNeighborNode;
@@ -15,8 +17,34 @@ public class Node : MonoBehaviour
     private void Start()
     {
         ValidateNeighboringNodes();
+        InitializeChildrenCells();
     }
 
+    private void SetNodeEntity()
+    {
+        var topCell = cells[0];
+        var entityColor = topCell.GetCellColor();
+
+        switch (topCell.GetCellEntityType())
+        {
+            case Cell.EntityType.Grape:
+                
+                break;
+            case Cell.EntityType.Frog:
+                break;
+        }
+    }
+
+    void OnMouseDown()
+    {
+        Debug.Log(cells.Count);
+    }
+
+    private void InitializeChildrenCells()
+    {
+        cells.AddRange(this.transform.GetComponentsInChildren<Cell>());
+    }
+    
     private void ValidateNeighboringNodes()
     {
         if (topNeighborNode != null)
