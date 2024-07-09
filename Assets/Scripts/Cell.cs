@@ -29,6 +29,11 @@ public class Cell : MonoBehaviour
     {
         return entityType;
     }
+
+    public PointDirection GetPointDirection()
+    {
+        return direction;
+    }
     
 
     private void InitializeCellColor()

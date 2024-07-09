@@ -14,26 +14,50 @@ public class Node : MonoBehaviour
     [SerializeField] private Node bottomNeighborNode;
     [SerializeField] private Node leftNeighborNode;
 
+    [SerializeField] private GameObject frogEntityPrefab;
+    [SerializeField] private GameObject grapeEntityPrefab;
+    [SerializeField] private GameObject arrowEntityPrefab;
+
     private void Start()
     {
         ValidateNeighboringNodes();
         InitializeChildrenCells();
+        SetNodeEntity();
     }
 
     private void SetNodeEntity()
     {
         var topCell = cells[0];
         var entityColor = topCell.GetCellColor();
+        GameObject temp;
+        var entityHeight = cells.Count * Cell.CellHeight;
+
+        var entityPosition = new Vector3(topCell.transform.position.x,
+            topCell.transform.position.y, topCell.transform.position.z - entityHeight);
 
         switch (topCell.GetCellEntityType())
         {
             case Cell.EntityType.Grape:
-                
+                temp = Instantiate(grapeEntityPrefab, entityPosition, Quaternion.identity, this.gameObject.transform);
+                temp.SetActive(false);
+                entity = temp.GetComponent<Grape>();
+                entity.InitializeEntity(topCell, this);
                 break;
             case Cell.EntityType.Frog:
+                temp = Instantiate(frogEntityPrefab, entityPosition, this.transform.rotation, this.gameObject.transform);
+                temp.SetActive(false);
+                entity = temp.GetComponent<Frog>();
+                entity.InitializeEntity(topCell, this);
+                break;
+            case Cell.EntityType.Arrow:
+                //TODO
+                break;
+            default:
                 break;
         }
+        
     }
+    
 
     void OnMouseDown()
     {

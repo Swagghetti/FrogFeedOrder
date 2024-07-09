@@ -175,6 +175,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8020550774888436458, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
+      propertyPath: cellColor
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 9103932012502564338, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
       propertyPath: topNeighborNode
       value: 
@@ -436,6 +440,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8020550774888436458, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
+      propertyPath: cellColor
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 9103932012502564338, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
       propertyPath: topNeighborNode
       value: 
@@ -521,63 +529,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5c3434f9cbdcb440ba2ba91a525ff9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &2187315544961442545
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1164607353120451049, guid: 1a27ff833bfaba04fa6806e14f335259, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1164607353120451049, guid: 1a27ff833bfaba04fa6806e14f335259, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1164607353120451049, guid: 1a27ff833bfaba04fa6806e14f335259, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1164607353120451049, guid: 1a27ff833bfaba04fa6806e14f335259, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1164607353120451049, guid: 1a27ff833bfaba04fa6806e14f335259, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1164607353120451049, guid: 1a27ff833bfaba04fa6806e14f335259, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1164607353120451049, guid: 1a27ff833bfaba04fa6806e14f335259, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1164607353120451049, guid: 1a27ff833bfaba04fa6806e14f335259, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1164607353120451049, guid: 1a27ff833bfaba04fa6806e14f335259, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1164607353120451049, guid: 1a27ff833bfaba04fa6806e14f335259, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 270
-      objectReference: {fileID: 0}
-    - target: {fileID: 1973232612432229203, guid: 1a27ff833bfaba04fa6806e14f335259, type: 3}
-      propertyPath: m_Name
-      value: Grape
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 1a27ff833bfaba04fa6806e14f335259, type: 3}
 --- !u!1001 &2721246906246893893
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -630,6 +581,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8020550774888436458, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
+      propertyPath: cellColor
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8020550774888436458, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
+      propertyPath: direction
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8020550774888436458, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
+      propertyPath: entityType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 9103932012502564338, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
       propertyPath: bottomNeighborNode
       value: 
@@ -646,4 +609,3 @@ SceneRoots:
   - {fileID: 963194228}
   - {fileID: 705507995}
   - {fileID: 1434119671}
-  - {fileID: 2187315544961442545}

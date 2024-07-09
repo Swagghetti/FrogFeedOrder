@@ -47,11 +47,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5c3434f9cbdcb440ba2ba91a525ff9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entity: {fileID: 0}
   cells: []
   topNeighborNode: {fileID: 0}
   rightNeighborNode: {fileID: 0}
   bottomNeighborNode: {fileID: 0}
   leftNeighborNode: {fileID: 0}
+  frogEntityPrefab: {fileID: 8464258778459126057, guid: b6ac0bf4e270f0d44a10cc87ceb4ead7, type: 3}
+  grapeEntityPrefab: {fileID: 1973232612432229203, guid: 1a27ff833bfaba04fa6806e14f335259, type: 3}
+  arrowEntityPrefab: {fileID: 0}
 --- !u!65 &8059397515152616859
 BoxCollider:
   m_ObjectHideFlags: 0
