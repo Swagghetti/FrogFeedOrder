@@ -141,7 +141,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3031129567751893110, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.3
+      value: -1.1
       objectReference: {fileID: 0}
     - target: {fileID: 3031129567751893110, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
       propertyPath: m_LocalPosition.z
@@ -182,7 +182,7 @@ PrefabInstance:
     - target: {fileID: 9103932012502564338, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
       propertyPath: topNeighborNode
       value: 
-      objectReference: {fileID: 2050445520}
+      objectReference: {fileID: 2084214065}
     - target: {fileID: 9103932012502564338, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
       propertyPath: bottomNeighborNode
       value: 
@@ -206,11 +206,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3031129567751893110, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: 3031129567751893110, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3031129567751893110, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
       propertyPath: m_LocalPosition.z
@@ -246,16 +246,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8020550774888436458, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
       propertyPath: cellColor
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9103932012502564338, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
       propertyPath: topNeighborNode
       value: 
-      objectReference: {fileID: 1206007569}
+      objectReference: {fileID: 0}
+    - target: {fileID: 9103932012502564338, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
+      propertyPath: leftNeighborNode
+      value: 
+      objectReference: {fileID: 2084214065}
     - target: {fileID: 9103932012502564338, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
       propertyPath: bottomNeighborNode
       value: 
-      objectReference: {fileID: 1106026518}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -670,11 +674,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3031129567751893110, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -1.1
       objectReference: {fileID: 0}
     - target: {fileID: 3031129567751893110, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3031129567751893110, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
       propertyPath: m_LocalPosition.z
@@ -712,14 +716,26 @@ PrefabInstance:
       propertyPath: cellColor
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 8020550774888436458, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
+      propertyPath: direction
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8020550774888436458, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
+      propertyPath: entityType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 9103932012502564338, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
       propertyPath: topNeighborNode
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9103932012502564338, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
+      propertyPath: rightNeighborNode
       value: 
       objectReference: {fileID: 2084214065}
     - target: {fileID: 9103932012502564338, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
       propertyPath: bottomNeighborNode
       value: 
-      objectReference: {fileID: 2050445520}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -878,6 +894,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6571043083466234751, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8020550774888436458, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
       propertyPath: cellColor
       value: 3
@@ -888,12 +908,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8020550774888436458, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
       propertyPath: entityType
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9103932012502564338, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
+      propertyPath: leftNeighborNode
+      value: 
+      objectReference: {fileID: 1206007569}
+    - target: {fileID: 9103932012502564338, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
+      propertyPath: rightNeighborNode
+      value: 
+      objectReference: {fileID: 2050445520}
     - target: {fileID: 9103932012502564338, guid: 2e899c80ce5a6984bb897ef011a53e14, type: 3}
       propertyPath: bottomNeighborNode
       value: 
-      objectReference: {fileID: 1206007569}
+      objectReference: {fileID: 1106026518}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

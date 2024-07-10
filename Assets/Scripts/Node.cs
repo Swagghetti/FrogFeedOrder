@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using DG.Tweening;
 
 public class Node : MonoBehaviour
 {
@@ -76,14 +77,23 @@ public class Node : MonoBehaviour
     {
         if (cells.Count > 0)
         {
-            Destroy(cells[0].gameObject);
-            Destroy(entity.gameObject);
-            cells.RemoveAt(0);
-        }
+            Cell topCell = cells[0];
 
-        if (cells.Count > 0)
-        {
-            SetNodeEntity();
+            topCell.gameObject.transform.DOScale(0.1f , 0.2f).OnComplete(() =>
+            {
+                Destroy(topCell.gameObject);
+                if (entity != null)
+                {
+                    Destroy(entity.gameObject);
+                }
+
+                cells.RemoveAt(0);
+
+                if (cells.Count > 0)
+                {
+                    SetNodeEntity();
+                }
+            });
         }
     }
     
