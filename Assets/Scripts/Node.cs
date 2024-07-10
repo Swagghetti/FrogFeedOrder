@@ -57,11 +57,46 @@ public class Node : MonoBehaviour
         }
         
     }
+
+    public GameObject GetEntityObject()
+    {
+        return entity.gameObject;
+    }
+
+    public Cell GetTopCell()
+    {
+        if (cells.Count > 0)
+        {
+            return cells[0];
+        }
+        return null;
+    }
+
+    public void RemoveTopCell()
+    {
+        if (cells.Count > 0)
+        {
+            Destroy(cells[0].gameObject);
+            Destroy(entity.gameObject);
+            cells.RemoveAt(0);
+        }
+
+        if (cells.Count > 0)
+        {
+            SetNodeEntity();
+        }
+    }
     
 
     void OnMouseDown()
     {
         Debug.Log(cells.Count);
+        
+        Cell topCell = GetTopCell();
+        if (topCell != null)
+        {
+            EventManager.Instance.FrogClicked(this);
+        }
     }
 
     private void InitializeChildrenCells()
@@ -118,6 +153,28 @@ public class Node : MonoBehaviour
         }
 
         return false;
+    }
+
+    public Node GetNeighboringNode(PointDirection direction)
+    {
+        if (direction == PointDirection.Down && bottomNeighborNode != null)
+        {
+            return bottomNeighborNode;
+        }
+        else if (direction == PointDirection.Left && leftNeighborNode != null)
+        {
+            return leftNeighborNode;
+        }
+        else if (direction == PointDirection.Right && rightNeighborNode != null)
+        {
+            return rightNeighborNode;
+        }
+        else if (direction == PointDirection.Up && topNeighborNode != null)
+        {
+            return topNeighborNode;
+        }
+
+        return null;
     }
     
     public enum RelativeDirection

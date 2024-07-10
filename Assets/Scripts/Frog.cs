@@ -12,10 +12,13 @@ public class Frog : Entity
     [SerializeField] private Material purpleMaterial;
 
     [SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer;
+
+    [SerializeField] private Cell associatedCell;
     
     
     public override void InitializeEntity(Cell cell, Node parent)
     {
+        associatedCell = cell;
         var color = cell.GetCellColor();
         var rotation = this.gameObject.transform.rotation;
 
