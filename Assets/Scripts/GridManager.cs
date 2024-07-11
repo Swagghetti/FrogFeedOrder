@@ -1,13 +1,31 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using DG.Tweening;
 
 public class GridManager : MonoBehaviour
 {
-    [SerializeField] private List<Node> nodesActivelyOnVisit = new List<Node>();
+    private List<Node> nodesActivelyOnVisit = new List<Node>();
+    private List<Node> nodes = new List<Node>();
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private bool isGridAvailable = true;
 
+    public static GridManager Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+    
+    
     private void OnEnable()
     {
         EventManager.Instance.Subscribe(HandleFrogClicked);
@@ -20,9 +38,14 @@ public class GridManager : MonoBehaviour
         EventManager.Instance.UnsubscribeRemoveTopCells(HandleRemoveTopCells);
     }
 
+    private void Start()
+    {
+        nodes = this.transform.GetComponentsInChildren<Node>().ToList();
+    }
+
     private void HandleFrogClicked(Node startNode)
     {
-        if (!isGridAvailable)
+        if (!isGridAvailable || startNode.GetTopCell().GetCellEntityType() != Cell.EntityType.Frog)
             return;
         
         CalculateVisitNodes(startNode);
@@ -168,6 +191,10 @@ public class GridManager : MonoBehaviour
         PointDirection direction = topCell.GetPointDirection();
 
         Node currentNode = startNode;
+        
+        
+        if (startNode.GetNeighboringNode(direction) == null)
+            return;
 
         while (true)
         {

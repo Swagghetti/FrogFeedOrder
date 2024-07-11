@@ -7,8 +7,8 @@ using DG.Tweening;
 
 public class Node : MonoBehaviour
 {
-    [SerializeField] private Entity entity;
-    [SerializeField] private List<Cell> cells = new List<Cell>();
+    private Entity entity;
+    private List<Cell> cells = new List<Cell>();
     
     [SerializeField] private Node topNeighborNode;
     [SerializeField] private Node rightNeighborNode;
@@ -187,19 +187,19 @@ public class Node : MonoBehaviour
 
     public Node GetNeighboringNode(PointDirection direction)
     {
-        if (direction == PointDirection.Down && bottomNeighborNode != null)
+        if (direction == PointDirection.Down && bottomNeighborNode != null && bottomNeighborNode.GetTopCell() != null)
         {
             return bottomNeighborNode;
         }
-        else if (direction == PointDirection.Left && leftNeighborNode != null)
+        else if (direction == PointDirection.Left && leftNeighborNode != null && leftNeighborNode.GetTopCell() != null)
         {
             return leftNeighborNode;
         }
-        else if (direction == PointDirection.Right && rightNeighborNode != null)
+        else if (direction == PointDirection.Right && rightNeighborNode != null && rightNeighborNode.GetTopCell() != null)
         {
             return rightNeighborNode;
         }
-        else if (direction == PointDirection.Up && topNeighborNode != null)
+        else if (direction == PointDirection.Up && topNeighborNode != null && topNeighborNode.GetTopCell() != null)
         {
             return topNeighborNode;
         }
