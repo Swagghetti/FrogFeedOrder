@@ -6,6 +6,7 @@ public class GridManager : MonoBehaviour
 {
     [SerializeField] private List<Node> nodesActivelyOnVisit = new List<Node>();
     [SerializeField] private LineRenderer lineRenderer;
+    [SerializeField] private bool isGridAvailable = true;
 
     private void OnEnable()
     {
@@ -21,15 +22,41 @@ public class GridManager : MonoBehaviour
 
     private void HandleFrogClicked(Node startNode)
     {
+        if (!isGridAvailable)
+            return;
+        
         CalculateVisitNodes(startNode);
+
+        if (nodesActivelyOnVisit.Count < 1 || !PathContainsGrape())
+        {
+            Debug.Log("Path doesnt contain grape");
+            return;
+        }
+            
+        isGridAvailable = false;
         GenerateTongue();
+    }
+
+    private bool PathContainsGrape()
+    {
+        foreach (var node in nodesActivelyOnVisit)
+        {
+            if (node.GetTopCell().GetCellEntityType() == Cell.EntityType.Grape)
+                return true;
+        }
+
+        return false;
     }
 
     private void HandleRemoveTopCells(List<Node> nodes)
     {
         foreach (Node node in nodes)
         {
-            node.RemoveTopCell();
+            if (node != null)
+            {
+                node.RemoveTopCell();
+                isGridAvailable = true;
+            }
         }
     }
 
@@ -37,7 +64,6 @@ public class GridManager : MonoBehaviour
     {
         if (nodesActivelyOnVisit == null || nodesActivelyOnVisit.Count == 1)
         {
-            Debug.Log("returning");
             return;
         }
 
@@ -61,7 +87,7 @@ public class GridManager : MonoBehaviour
         {
             int currentIndex = i;
 
-            if (nodesActivelyOnVisit[currentIndex]?.GetEntityObject() != null)
+            if (nodesActivelyOnVisit[currentIndex]?.GetEntityObject() != null && nodesActivelyOnVisit[currentIndex].GetTopCell().GetCellEntityType() != Cell.EntityType.Arrow)
             {
                 Transform entityTransform = nodesActivelyOnVisit[currentIndex].GetEntityObject().transform;
                 sequence.Append(entityTransform.DOMove(positions[currentIndex - 1], 0.3f).OnUpdate(() =>
@@ -79,15 +105,15 @@ public class GridManager : MonoBehaviour
         {
             for (int i = 0; i < nodesActivelyOnVisit.Count; i++)
             {
-                if (nodesActivelyOnVisit[i]?.GetEntityObject() != null)
+                if (nodesActivelyOnVisit[i]?.GetEntityObject() != null && nodesActivelyOnVisit[i].GetTopCell().GetCellEntityType() != Cell.EntityType.Arrow)
                 {
                     Transform entityTransform = nodesActivelyOnVisit[i].GetEntityObject().transform;
-                    entityTransform.DOMove(startPosition, 0.5f);
+                    entityTransform.DOMove(startPosition, 0.15f);
                 }
             }
         });
 
-        sequence.AppendInterval(0.5f)
+        sequence.AppendInterval(0.2f)
             .AppendCallback(() =>
             {
                 EventManager.Instance.RemoveTopCells(nodesActivelyOnVisit);
@@ -95,10 +121,31 @@ public class GridManager : MonoBehaviour
             .AppendCallback(() =>
             {
                 nodesActivelyOnVisit.Clear();
+            })
+            .AppendCallback(() =>
+            {
+                RetractTongue();
             });
 
         sequence.Play();
     }
+
+    private void RetractTongue()
+    {
+        Sequence retractSequence = DOTween.Sequence();
+
+        for (int i = lineRenderer.positionCount - 1; i >= 0; i--)
+        {
+            int index = i;
+            retractSequence.AppendInterval(0.1f).AppendCallback(() =>
+            {
+                lineRenderer.positionCount = index;
+            });
+        }
+
+        retractSequence.Play();
+    }
+
 
 
 
@@ -136,6 +183,11 @@ public class GridManager : MonoBehaviour
             }
 
             currentNode = nextNode;
+
+            if (currentNode.GetTopCell().GetCellEntityType() == Cell.EntityType.Arrow)
+            {
+                direction = currentNode.GetTopCell().GetPointDirection();
+            }
         }
     }
 

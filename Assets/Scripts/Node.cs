@@ -19,6 +19,8 @@ public class Node : MonoBehaviour
     [SerializeField] private GameObject grapeEntityPrefab;
     [SerializeField] private GameObject arrowEntityPrefab;
 
+    private readonly float FrogHeight = 0.05f;
+
     private void Start()
     {
         ValidateNeighboringNodes();
@@ -31,7 +33,16 @@ public class Node : MonoBehaviour
         var topCell = cells[0];
         var entityColor = topCell.GetCellColor();
         GameObject temp;
-        var entityHeight = cells.Count * Cell.CellHeight;
+        var entityHeight = Cell.CellHeight * cells.Count;
+
+        if (topCell.GetCellEntityType() == Cell.EntityType.Frog)
+        {
+            entityHeight += FrogHeight;
+        }
+        else if (topCell.GetCellEntityType() == Cell.EntityType.Arrow)
+        {
+            entityHeight += 0.01f;
+        }
 
         var entityPosition = new Vector3(topCell.transform.position.x,
             topCell.transform.position.y, topCell.transform.position.z - entityHeight);
@@ -41,23 +52,32 @@ public class Node : MonoBehaviour
             case Cell.EntityType.Grape:
                 temp = Instantiate(grapeEntityPrefab, entityPosition, Quaternion.identity, this.gameObject.transform);
                 temp.SetActive(false);
+                temp.transform.localPosition = new Vector3(temp.transform.localPosition.x,
+                    entityHeight, temp.transform.localPosition.z);
                 entity = temp.GetComponent<Grape>();
                 entity.InitializeEntity(topCell, this);
                 break;
             case Cell.EntityType.Frog:
                 temp = Instantiate(frogEntityPrefab, entityPosition, this.transform.rotation, this.gameObject.transform);
                 temp.SetActive(false);
+                temp.transform.localPosition = new Vector3(temp.transform.localPosition.x,
+                    entityHeight, temp.transform.localPosition.z);
                 entity = temp.GetComponent<Frog>();
                 entity.InitializeEntity(topCell, this);
                 break;
             case Cell.EntityType.Arrow:
-                //TODO
+                temp = Instantiate(arrowEntityPrefab, entityPosition, this.transform.rotation, this.gameObject.transform);
+                temp.SetActive(false);
+                temp.transform.localPosition = new Vector3(temp.transform.localPosition.x,
+                    entityHeight, temp.transform.localPosition.z);
+                entity = temp.GetComponent<Arrow>();
+                entity.InitializeEntity(topCell, this);
                 break;
             default:
                 break;
         }
-        
     }
+    
 
     public GameObject GetEntityObject()
     {
