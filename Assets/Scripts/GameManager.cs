@@ -1,12 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    [SerializeField] private int totalMoves = 10;
-
+    private bool _isGameFinished;
+    
     private void Awake()
     {
         if (Instance == null)
@@ -21,32 +23,41 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        UpdateMovesText();
+        _isGameFinished = false;
     }
 
-    public void DecreaseMoveCount()
+    public void GameWin()
     {
-        if (totalMoves > 0)
-        {
-            totalMoves--;
-            UpdateMovesText();
-        }
-
-        /*if (totalMoves == 0 || !GridManager.Instance.HasFrogs())
-        {
-            GameOver();
-        }*/
+        StartCoroutine(GameWinCoroutine());
     }
 
-    private void UpdateMovesText()
+    IEnumerator GameWinCoroutine()
     {
-        //movesText.text = "Moves: " + totalMoves;
+        _isGameFinished = true;
+        yield return new WaitForSeconds(0.4f);
+        
+        Debug.Log("GameWin");
+        EventManager.Instance.TriggerGameWin();
     }
 
-    private void GameOver()
+    public void GameLose()
     {
-        Time.timeScale = 0;
-        //gameOverUI.SetActive(true);
+        StartCoroutine(GameLoseCoroutine());
     }
+    
+    IEnumerator GameLoseCoroutine()
+    {
+        _isGameFinished = true;
+        yield return new WaitForSeconds(0.4f);
+        
+        Debug.Log("GameLose");
+        EventManager.Instance.TriggerGameLose();
+    }
+
+    public bool IsGameFinished()
+    {
+        return _isGameFinished;
+    }
+    
 }
 

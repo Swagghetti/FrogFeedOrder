@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class GridManager : MonoBehaviour
     private List<Node> nodes = new List<Node>();
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private bool isGridAvailable = true;
+    [SerializeField] private int moveCount = 10;
 
     public static GridManager Instance { get; private set; }
 
@@ -30,12 +32,16 @@ public class GridManager : MonoBehaviour
     {
         EventManager.Instance.Subscribe(HandleFrogClicked);
         EventManager.Instance.SubscribeRemoveTopCells(HandleRemoveTopCells);
+        EventManager.Instance.SubscribeGameWin(HandleGameWin);
+        EventManager.Instance.SubscribeGameLose(HandleGameLose);
     }
 
     private void OnDisable()
     {
         EventManager.Instance.Unsubscribe(HandleFrogClicked);
         EventManager.Instance.UnsubscribeRemoveTopCells(HandleRemoveTopCells);
+        EventManager.Instance.UnsubscribeGameWin(HandleGameWin);
+        EventManager.Instance.UnsubscribeGameLose(HandleGameLose);
     }
 
     private void Start()
@@ -45,7 +51,7 @@ public class GridManager : MonoBehaviour
 
     private void HandleFrogClicked(Node startNode)
     {
-        if (!isGridAvailable || startNode.GetTopCell().GetCellEntityType() != Cell.EntityType.Frog)
+        if (!isGridAvailable || GameManager.Instance.IsGameFinished() || startNode.GetTopCell().GetCellEntityType() != Cell.EntityType.Frog)
             return;
         
         CalculateVisitNodes(startNode);
@@ -57,7 +63,90 @@ public class GridManager : MonoBehaviour
         }
             
         isGridAvailable = false;
+        moveCount--;
+        
         GenerateTongue();
+    }
+
+    private void CheckGameEndConditions()
+    {
+        Debug.Log("CHECKING");
+        List<Node> frogNodes = new List<Node>();
+
+        //get all nodes with a frog on top cell in a list
+        foreach (var node in nodes)
+        {
+            var topCell = node.GetTopCell();
+            if (topCell != null && topCell.GetCellEntityType() == Cell.EntityType.Frog)
+            {
+                frogNodes.Add(node);
+            }
+        }
+        Debug.Log("FrogCount: " + frogNodes.Count);
+        //check if there are no frogs on the grid
+        if (frogNodes.Count == 0)
+        {
+            foreach (var node in nodes)
+            {
+                if (node.HasUnusedHiddenFrog())
+                {
+                    GameManager.Instance.GameLose();
+                    return;
+                }
+            }
+
+            //if no hidden frogs are available, the game is won
+            GameManager.Instance.GameWin();
+            return;
+        }
+
+        //check if the number of moves left is zero
+        if (moveCount <= 0)
+        {
+            GameManager.Instance.GameLose();
+            return;
+        }
+
+        //check if frogs can be clicked (they have a valid neighboring node to move to)
+        foreach (var node in frogNodes)
+        {
+            var topCell = node.GetTopCell();
+            if (topCell != null)
+            {
+                var direction = topCell.GetPointDirection();
+                if (node.GetNeighboringNode(direction) != null)
+                {
+                    //a frog has a valid move, so the game continues
+                    return;
+                }
+            }
+        }
+
+        //no legal movements available, game is lost
+        GameManager.Instance.GameLose();
+    }
+
+    IEnumerator CheckGameEndConditionsCoroutine()
+    {
+        yield return new WaitForSeconds(0.5f);
+        
+        CheckGameEndConditions();
+    }
+
+
+    private void HandleGameWin()
+    {
+        LockTheGrid();
+    }
+
+    private void HandleGameLose()
+    {
+        LockTheGrid();
+    }
+
+    private void LockTheGrid()
+    {
+        isGridAvailable = false;
     }
 
     private bool PathContainsGrape()
@@ -81,6 +170,8 @@ public class GridManager : MonoBehaviour
                 isGridAvailable = true;
             }
         }
+
+        StartCoroutine(CheckGameEndConditionsCoroutine());
     }
 
     private void GenerateTongue()
@@ -200,7 +291,6 @@ public class GridManager : MonoBehaviour
         {
             Node nextNode = GetNextNode(currentNode, direction);
 
-            Debug.Log(currentNode.gameObject.name + " visited");
 
             nodesActivelyOnVisit.Add(currentNode);
 

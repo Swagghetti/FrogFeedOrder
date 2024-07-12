@@ -185,6 +185,19 @@ public class Node : MonoBehaviour
         return false;
     }
 
+    public bool HasUnusedHiddenFrog()
+    {
+        for (int i = 1; i < cells.Count; i++)
+        {
+            if (cells[i].GetCellEntityType() == Cell.EntityType.Frog)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public Node GetNeighboringNode(PointDirection direction)
     {
         if (direction == PointDirection.Down && bottomNeighborNode != null && bottomNeighborNode.GetTopCell() != null)

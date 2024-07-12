@@ -20,6 +20,8 @@ public class EventManager
 
     private event Action<Node> OnFrogClicked;
     private event Action<List<Node>> OnRemoveTopCells;
+    private event Action OnGameWin;
+    private event Action OnGameLose;
 
     public void Subscribe(Action<Node> frogClickedListener)
     {
@@ -49,5 +51,35 @@ public class EventManager
     public void RemoveTopCells(List<Node> nodes)
     {
         OnRemoveTopCells?.Invoke(nodes);
+    }
+    
+    public void TriggerGameWin()
+    {
+        OnGameWin?.Invoke();
+    }
+
+    public void TriggerGameLose()
+    {
+        OnGameLose?.Invoke();
+    }
+
+    public void SubscribeGameWin(Action subscriber)
+    {
+        OnGameWin += subscriber;
+    }
+
+    public void UnsubscribeGameWin(Action subscriber)
+    {
+        OnGameWin -= subscriber;
+    }
+
+    public void SubscribeGameLose(Action subscriber)
+    {
+        OnGameLose += subscriber;
+    }
+
+    public void UnsubscribeGameLose(Action subscriber)
+    {
+        OnGameLose -= subscriber;
     }
 }
