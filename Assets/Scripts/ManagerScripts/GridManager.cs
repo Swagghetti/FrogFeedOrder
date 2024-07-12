@@ -34,6 +34,7 @@ public class GridManager : MonoBehaviour
         EventManager.Instance.SubscribeRemoveTopCells(HandleRemoveTopCells);
         EventManager.Instance.SubscribeGameWin(HandleGameWin);
         EventManager.Instance.SubscribeGameLose(HandleGameLose);
+        EventManager.Instance.SubscribeOnMoveCountChanged(HandleMoveCountChanged);
     }
 
     private void OnDisable()
@@ -42,11 +43,14 @@ public class GridManager : MonoBehaviour
         EventManager.Instance.UnsubscribeRemoveTopCells(HandleRemoveTopCells);
         EventManager.Instance.UnsubscribeGameWin(HandleGameWin);
         EventManager.Instance.UnsubscribeGameLose(HandleGameLose);
+        EventManager.Instance.UnsubscribeOnMoveCountChanged(HandleMoveCountChanged);
     }
 
     private void Start()
     {
         nodes = this.transform.GetComponentsInChildren<Node>().ToList();
+        
+        UpdateMoveCount(moveCount);
     }
 
     private void HandleFrogClicked(Node startNode)
@@ -63,14 +67,24 @@ public class GridManager : MonoBehaviour
         }
             
         isGridAvailable = false;
-        moveCount--;
+        UpdateMoveCount(moveCount - 1);
         
         GenerateTongue();
+    }
+    
+    private void HandleMoveCountChanged(int count)
+    {
+        Debug.Log($"Move count changed: {count}");
+    }
+    
+    private void UpdateMoveCount(int newMoveCount)
+    {
+        moveCount = newMoveCount;
+        EventManager.Instance.TriggerOnMoveCountChanged(moveCount);
     }
 
     private void CheckGameEndConditions()
     {
-        Debug.Log("CHECKING");
         List<Node> frogNodes = new List<Node>();
 
         //get all nodes with a frog on top cell in a list
@@ -82,7 +96,7 @@ public class GridManager : MonoBehaviour
                 frogNodes.Add(node);
             }
         }
-        Debug.Log("FrogCount: " + frogNodes.Count);
+        
         //check if there are no frogs on the grid
         if (frogNodes.Count == 0)
         {
@@ -128,7 +142,7 @@ public class GridManager : MonoBehaviour
 
     IEnumerator CheckGameEndConditionsCoroutine()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         
         CheckGameEndConditions();
     }

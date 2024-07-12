@@ -22,6 +22,9 @@ public class EventManager
     private event Action<List<Node>> OnRemoveTopCells;
     private event Action OnGameWin;
     private event Action OnGameLose;
+    
+    private event Action<int> onMoveCountChanged;
+    
 
     public void Subscribe(Action<Node> frogClickedListener)
     {
@@ -31,6 +34,21 @@ public class EventManager
     public void Unsubscribe(Action<Node> frogClickedListener)
     {
         OnFrogClicked -= frogClickedListener;
+    }
+    
+    public void SubscribeOnMoveCountChanged(Action<int> listener)
+    {
+        onMoveCountChanged += listener;
+    }
+
+    public void UnsubscribeOnMoveCountChanged(Action<int> listener)
+    {
+        onMoveCountChanged -= listener;
+    }
+
+    public void TriggerOnMoveCountChanged(int count)
+    {
+        onMoveCountChanged?.Invoke(count);
     }
 
     public void FrogClicked(Node node)
