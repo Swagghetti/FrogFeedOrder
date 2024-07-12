@@ -58,11 +58,12 @@ public class GridManager : MonoBehaviour
         if (!isGridAvailable || GameManager.Instance.IsGameFinished() || startNode.GetTopCell().GetCellEntityType() != Cell.EntityType.Frog)
             return;
         
-        CalculateVisitNodes(startNode);
+        CalculateVisitNodes(startNode, nodesActivelyOnVisit);
 
-        if (nodesActivelyOnVisit.Count < 1 || !PathContainsGrape())
+        if (nodesActivelyOnVisit.Count < 1 || !PathContainsGrape(nodesActivelyOnVisit))
         {
             Debug.Log("Path doesnt contain grape");
+            nodesActivelyOnVisit.Clear();
             return;
         }
             
@@ -74,7 +75,7 @@ public class GridManager : MonoBehaviour
     
     private void HandleMoveCountChanged(int count)
     {
-        Debug.Log($"Move count changed: {count}");
+        // can be added later
     }
     
     private void UpdateMoveCount(int newMoveCount)
@@ -124,15 +125,12 @@ public class GridManager : MonoBehaviour
         //check if frogs can be clicked (they have a valid neighboring node to move to)
         foreach (var node in frogNodes)
         {
-            var topCell = node.GetTopCell();
-            if (topCell != null)
+            List<Node> tempPath = new List<Node>();
+            CalculateVisitNodes(node, tempPath);
+
+            if (PathContainsGrape(tempPath))
             {
-                var direction = topCell.GetPointDirection();
-                if (node.GetNeighboringNode(direction) != null)
-                {
-                    //a frog has a valid move, so the game continues
-                    return;
-                }
+                return;
             }
         }
 
@@ -163,9 +161,9 @@ public class GridManager : MonoBehaviour
         isGridAvailable = false;
     }
 
-    private bool PathContainsGrape()
+    private bool PathContainsGrape(List<Node> path)
     {
-        foreach (var node in nodesActivelyOnVisit)
+        foreach (var node in path)
         {
             if (node.GetTopCell().GetCellEntityType() == Cell.EntityType.Grape)
                 return true;
@@ -289,7 +287,7 @@ public class GridManager : MonoBehaviour
         lineRenderer.SetPositions(updatedPositions);
     }
 
-    private void CalculateVisitNodes(Node startNode)
+    private void CalculateVisitNodes(Node startNode, List<Node> nodeList)
     {
         Cell topCell = startNode.GetTopCell();
         Cell.CellColor targetColor = topCell.GetCellColor();
@@ -306,9 +304,9 @@ public class GridManager : MonoBehaviour
             Node nextNode = GetNextNode(currentNode, direction);
 
 
-            nodesActivelyOnVisit.Add(currentNode);
+            nodeList.Add(currentNode);
 
-            if (nextNode == null || nextNode.GetTopCell().GetCellColor() != targetColor)
+            if (nextNode == null || nextNode.GetTopCell().GetCellColor() != targetColor || nextNode.GetTopCell().GetCellEntityType() == Cell.EntityType.Frog)
             {
                 break;
             }
